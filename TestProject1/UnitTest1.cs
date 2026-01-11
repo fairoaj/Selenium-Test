@@ -9,20 +9,39 @@ namespace TestProject1
 {
     public class Tests
     {
+        private IWebDriver driver;
+
         [SetUp]
         public void Setup()
         {
+            // Automatically download the correct ChromeDriver version
+            new DriverManager().SetUpDriver(new ChromeConfig());
+
+            var options = new ChromeOptions();
+
+            // Run headless ONLY in CI environment
+            if (Environment.GetEnvironmentVariable("CI") == "true")
+            {
+                options.AddArgument("--headless=new");
+                options.AddArgument("--disable-gpu");
+                options.AddArgument("--window-size=1920,1080");
+            }
+
+            driver = new ChromeDriver(options);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            driver.Manage().Window.Maximize();
         }
+
 
         [Test]
         public void NpmsLogin()
         {
             // to fix crom driver version
             // This line automatically downloads the correct ChromeDriver version
-            new DriverManager().SetUpDriver(new ChromeConfig());
+            //new DriverManager().SetUpDriver(new ChromeConfig());
 
             //create new instance of selenium web driver
-            IWebDriver driver = new ChromeDriver();
+            //IWebDriver driver = new ChromeDriver();
             // navigate to the url
             driver.Navigate().GoToUrl("https://www.waterlilylabs.com:816/Account/Login");
             // maximize the window
@@ -57,6 +76,13 @@ namespace TestProject1
             Thread.Sleep(1000);
             SafeguardingMarker safeguarding = new SafeguardingMarker(driver);
             safeguarding.AddNewRecord();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            driver?.Quit();
+            driver = null; // Optional: clears reference
         }
 
     }
