@@ -9,6 +9,7 @@ namespace TestProject1
 {
     public class Tests
     {
+        // driver
         private IWebDriver driver;
 
         [SetUp]
