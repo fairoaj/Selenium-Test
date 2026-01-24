@@ -10,7 +10,7 @@ namespace TestProject1
     public class Tests
     {
         // driver
-        private IWebDriver driver;
+         private ChromeDriver driver;
 
         [SetUp]
         public void Setup()
@@ -83,6 +83,7 @@ namespace TestProject1
         public void TearDown()
         {
             driver?.Quit();
+            driver?.Dispose();
             driver = null; // Optional: clears reference
         }
 
