@@ -55,7 +55,8 @@ namespace TestProject1
             login.ClickLogin();
 
             // click profile button && clear history
-            SeleniumCustomMethod.click(driver, By.CssSelector("a.user-profile-btn.dropdown-toggle"));
+            //SeleniumCustomMethod.click(driver, By.CssSelector("a.user-profile-btn.dropdown-toggle"));
+            SeleniumCustomMethod.ClickWhenClickable(driver,By.CssSelector("a.user-profile-btn.dropdown-toggle"));
             Thread.Sleep(1000);
             SeleniumCustomMethod.click(driver, By.CssSelector("ul.dropdown-menu a[href='/Account/ClearHistory']"));
             // click profile button && clear history
@@ -79,12 +80,12 @@ namespace TestProject1
             safeguarding.AddNewRecord();
         }
 
+
         [TearDown]
         public void TearDown()
         {
             driver?.Quit();
             driver?.Dispose();
-            driver = null; // Optional: clears reference
         }
 
     }
